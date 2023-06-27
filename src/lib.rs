@@ -44,8 +44,8 @@ where
 impl<I, F, O> ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
-    <I as Iterator>::Item: Send + 'static,
+    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
+    <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
     pub fn new(iterator: I, function: F, num_threads: Option<usize>) -> Self {
