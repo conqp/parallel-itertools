@@ -27,6 +27,7 @@ where
     }
 }
 
+#[derive(Debug)]
 pub struct ThreadedMap<I, F, O>
 where
     I: Iterator,
