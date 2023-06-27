@@ -4,8 +4,8 @@ use threadpool::{Builder, ThreadPool};
 pub trait ThreadedIter<F, O>
 where
     Self: Iterator + Sized,
-    F: Fn(<Self as Iterator>::Item) -> O + Send + Clone + 'static,
-    <Self as Iterator>::Item: Send + 'static,
+    F: Fn(<Self as Iterator>::Item) -> O + Send + Clone,
+    <Self as Iterator>::Item: Send,
     O: Send + Sync,
 {
     /// Maps items of an iterator in parallel while conserving their order
@@ -89,8 +89,8 @@ where
 impl<I, F, O> Iterator for ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
-    <I as Iterator>::Item: Send + 'static,
+    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
+    <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
     type Item = O;
@@ -116,8 +116,8 @@ where
 impl<I, F, O> ThreadedIter<F, O> for I
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
-    <I as Iterator>::Item: Send + 'static,
+    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
+    <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
 }
