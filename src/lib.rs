@@ -6,7 +6,7 @@ where
     Self: Iterator + Sized,
     F: Fn(<Self as Iterator>::Item) -> O + Send + Clone + 'static,
     <Self as Iterator>::Item: Send + 'static,
-    O: Send + Sync + 'static,
+    O: Send + Sync,
 {
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
@@ -46,7 +46,7 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + 'static,
+    O: Send + Sync,
 {
     pub fn new(iterator: I, function: F, num_threads: Option<usize>) -> Self {
         Self {
@@ -91,7 +91,7 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + 'static,
+    O: Send + Sync,
 {
     type Item = O;
 
@@ -118,6 +118,6 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + 'static,
+    O: Send + Sync,
 {
 }
