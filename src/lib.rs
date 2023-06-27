@@ -31,9 +31,9 @@ where
 pub struct ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
-    <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + 'static,
+    F: Fn(<I as Iterator>::Item) -> O + 'static,
+    <I as Iterator>::Item: 'static,
+    O: Send + 'static,
 {
     iterator: I,
     function: F,
