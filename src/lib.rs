@@ -1,4 +1,3 @@
-use std::fmt::Debug;
 use std::sync::mpsc::{channel, Receiver};
 use threadpool::{Builder, ThreadPool};
 
@@ -7,7 +6,7 @@ where
     Self: Iterator + Sized,
     F: Fn(<Self as Iterator>::Item) -> O + Send + Clone + 'static,
     <Self as Iterator>::Item: Send + 'static,
-    O: Send + Sync + Debug + 'static,
+    O: Send + Sync + 'static,
 {
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
@@ -33,7 +32,7 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + Debug + 'static,
+    O: Send + Sync + 'static,
 {
     iterator: I,
     function: F,
@@ -46,7 +45,7 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + Debug + 'static,
+    O: Send + Sync + 'static,
 {
     pub fn new(iterator: I, function: F, num_threads: Option<usize>) -> Self {
         Self {
@@ -91,7 +90,7 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + Debug + 'static,
+    O: Send + Sync + 'static,
 {
     type Item = O;
 
@@ -118,6 +117,6 @@ where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone + 'static,
     <I as Iterator>::Item: Send + 'static,
-    O: Send + Sync + Debug + 'static,
+    O: Send + Sync + 'static,
 {
 }
