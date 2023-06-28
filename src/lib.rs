@@ -4,7 +4,7 @@ use threadpool::{Builder, ThreadPool};
 pub trait ThreadedMappable<F>
 where
     Self: Iterator,
-    F: Fn(<Self as Iterator>::Item) -> <Self::Iter as Iterator>::Item + Send + Clone,
+    F: FnOnce(<Self as Iterator>::Item) -> <Self::Iter as Iterator>::Item + Send + Clone,
     <Self as Iterator>::Item: Send,
     Self::Iter: Iterator,
     <Self::Iter as Iterator>::Item: Send + Sync,
@@ -32,7 +32,7 @@ where
 pub struct ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + 'static,
+    F: FnOnce(<I as Iterator>::Item) -> O + 'static,
     <I as Iterator>::Item: 'static,
     O: Send + 'static,
 {
@@ -45,7 +45,7 @@ where
 impl<I, F, O> ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
+    F: FnOnce(<I as Iterator>::Item) -> O + Send + Clone,
     <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
@@ -80,7 +80,7 @@ where
 impl<I, F, O> Iterator for ThreadedMap<I, F, O>
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
+    F: FnOnce(<I as Iterator>::Item) -> O + Send + Clone,
     <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
@@ -107,7 +107,7 @@ where
 impl<I, F, O> ThreadedMappable<F> for I
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Clone + Send + 'static,
+    F: FnOnce(<I as Iterator>::Item) -> O + Clone + Send + 'static,
     <I as Iterator>::Item: Send + 'static,
     O: Send + Sync + 'static,
 {
