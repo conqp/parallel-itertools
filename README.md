@@ -1,2 +1,2 @@
-# parallel-itertools
-Itertools for parallel operations on iterators
+# threaded-map
+Library to extend iterators with a threaded version of `map()`.
