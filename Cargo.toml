@@ -1,14 +1,14 @@
 [package]
 name = "threaded-map"
 authors = ["Richard Neumann <mail@richard-neumann.de>"]
-description = "Encode bytes as ANSI background colors"
+description = "Extend iterators with a threaded version of the map() function"
 license = "MIT"
 homepage = "https://github.com/conqp/threaded-map/"
 repository = "https://github.com/conqp/threaded-map/"
 readme = "README.md"
 documentation = "https://docs.rs/threaded-map"
 keywords = [ "threaded", "mapping"]
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 exclude = [
     ".gitignore",
