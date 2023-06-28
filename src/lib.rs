@@ -1,7 +1,7 @@
 use std::sync::mpsc::{channel, Receiver};
 use threadpool::{Builder, ThreadPool};
 
-pub trait ThreadedIter<F, O>
+pub trait ThreadedMappable<F, O>
 where
     Self: Iterator + Sized,
     F: Fn(<Self as Iterator>::Item) -> O + Send + Clone,
@@ -11,7 +11,7 @@ where
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
     /// ```
-    /// use parallel_itertools::ThreadedIter;
+    /// use parallel_itertools::ThreadedMappable;
     /// let items = vec![1, 2, 3, 4, 5, 6];
     /// let target: Vec<_> = items.iter().map(i32::to_string).collect();
     ///
@@ -113,7 +113,7 @@ where
     }
 }
 
-impl<I, F, O> ThreadedIter<F, O> for I
+impl<I, F, O> ThreadedMappable<F, O> for I
 where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
