@@ -11,7 +11,7 @@ where
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
     /// ```
-    /// use parallel_itertools::ThreadedMappable;
+    /// use threaded_map::ThreadedMappable;
     /// let items = vec![1, 2, 3, 4, 5, 6];
     /// let target: Vec<_> = items.iter().map(i32::to_string).collect();
     ///
