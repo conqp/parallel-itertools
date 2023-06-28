@@ -1,14 +1,16 @@
 use std::sync::mpsc::{channel, Receiver};
 use threadpool::{Builder, ThreadPool};
 
-pub trait ThreadedMappable<F, O>
+pub trait ThreadedMappable<F>
 where
     Self: Iterator,
-    F: Fn(<Self as Iterator>::Item) -> <O as Iterator>::Item + Send + Clone,
+    F: Fn(<Self as Iterator>::Item) -> <Self::O as Iterator>::Item + Send + Clone,
     <Self as Iterator>::Item: Send,
-    O: Iterator,
-    O::Item: Send + Sync,
+    Self::O: Iterator,
+    <Self::O as Iterator>::Item: Send + Sync,
 {
+    type O;
+
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
     /// ```
@@ -23,7 +25,7 @@ where
     ///
     /// assert_eq!(result, target);
     /// ```
-    fn parallel_map(self, f: F, num_threads: Option<usize>) -> O;
+    fn parallel_map(self, f: F, num_threads: Option<usize>) -> Self::O;
 }
 
 #[derive(Debug)]
@@ -102,14 +104,16 @@ where
     }
 }
 
-impl<I, F, O> ThreadedMappable<F, ThreadedMap<I, F, O>> for I
+impl<I, F, O> ThreadedMappable<F> for I
 where
     I: Iterator,
-    F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
-    <I as Iterator>::Item: Send,
-    O: Send + Sync,
+    F: Fn(<I as Iterator>::Item) -> O + Clone + Send + 'static,
+    <I as Iterator>::Item: Send + 'static,
+    O: Send + Sync + 'static,
 {
-    fn parallel_map(self, f: F, num_threads: Option<usize>) -> ThreadedMap<Self, F, O> {
+    type O = ThreadedMap<Self, F, O>;
+
+    fn parallel_map(self, f: F, num_threads: Option<usize>) -> Self::O {
         ThreadedMap::new(self, f, num_threads)
     }
 }
