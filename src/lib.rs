@@ -3,10 +3,11 @@ use threadpool::{Builder, ThreadPool};
 
 pub trait ThreadedMappable<F, O>
 where
-    Self: Iterator + Sized,
-    F: Fn(<Self as Iterator>::Item) -> O + Send + Clone,
+    Self: Iterator,
+    F: Fn(<Self as Iterator>::Item) -> <O as Iterator>::Item + Send + Clone,
     <Self as Iterator>::Item: Send,
-    O: Send + Sync,
+    O: Iterator,
+    O::Item: Send + Sync,
 {
     /// Maps items of an iterator in parallel while conserving their order
     /// # Examples
@@ -22,9 +23,7 @@ where
     ///
     /// assert_eq!(result, target);
     /// ```
-    fn parallel_map(self, f: F, num_threads: Option<usize>) -> ThreadedMap<Self, F, O> {
-        ThreadedMap::new(self, f, num_threads)
-    }
+    fn parallel_map(self, f: F, num_threads: Option<usize>) -> O;
 }
 
 #[derive(Debug)]
@@ -103,11 +102,14 @@ where
     }
 }
 
-impl<I, F, O> ThreadedMappable<F, O> for I
+impl<I, F, O> ThreadedMappable<F, ThreadedMap<I, F, O>> for I
 where
     I: Iterator,
     F: Fn(<I as Iterator>::Item) -> O + Send + Clone,
     <I as Iterator>::Item: Send,
     O: Send + Sync,
 {
+    fn parallel_map(self, f: F, num_threads: Option<usize>) -> ThreadedMap<Self, F, O> {
+        ThreadedMap::new(self, f, num_threads)
+    }
 }
