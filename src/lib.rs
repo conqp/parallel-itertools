@@ -57,7 +57,7 @@ where
         }
     }
 
-    fn window(&mut self, n: usize) -> Vec<<I as Iterator>::Item> {
+    fn next_window(&mut self, n: usize) -> Vec<<I as Iterator>::Item> {
         let mut items = Vec::new();
 
         for _ in 0..n {
@@ -71,7 +71,7 @@ where
 
     fn send_items(&mut self) -> Receiver<(usize, O)> {
         let (tx, rx) = channel::<(usize, O)>();
-        let window = self.window(self.thread_pool.max_count());
+        let window = self.next_window(self.thread_pool.max_count());
 
         for (index, item) in window.into_iter().enumerate() {
             let tx = tx.clone();
