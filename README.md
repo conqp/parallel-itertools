@@ -1,2 +1,1 @@
-# threaded-map
-Library to extend iterators with a threaded version of `map()`.
+I consent to the transfer of this crate to the first person who asks help@crates.io for it.
